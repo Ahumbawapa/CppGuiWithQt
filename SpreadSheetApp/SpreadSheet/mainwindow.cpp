@@ -1,4 +1,4 @@
-#include <QtGui>
+#include <QtWidgets>
 #include "finddialog.h"
 #include "gotocelldialog.h"
 #include "mainwindow.h"
@@ -80,6 +80,12 @@ void MainWindow::createMenus()
         fileMenu->addAction(recentFileActions[i]);
     fileMenu->addSeparator();
     fileMenu->addAction(exitAction);
+
+    editMenu = menuBar()->addMenu(tr("&Edit"));
+    editMenu->addAction(cutAction);
+    editMenu->addAction(copyAction);
+    editMenu->addAction(pastAction);
+    editMenu->addAction(deleteAction);
 
 }
 

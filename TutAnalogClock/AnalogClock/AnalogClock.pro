@@ -18,4 +18,4 @@ SOURCES += main.cpp\
 HEADERS  += \
     analogclock.h
 
-FORMS    += mainwindow.ui
+FORMS    +=

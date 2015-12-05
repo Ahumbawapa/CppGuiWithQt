@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'gotocelldialog.ui'
 **
-** Created by: Qt User Interface Compiler version 5.5.1
+** Created by: Qt User Interface Compiler version 4.8.6
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
 ********************************************************************************/
@@ -10,16 +10,16 @@
 #define UI_GOTOCELLDIALOG_H
 
 #include <QtCore/QVariant>
-#include <QtWidgets/QAction>
-#include <QtWidgets/QApplication>
-#include <QtWidgets/QButtonGroup>
-#include <QtWidgets/QDialogButtonBox>
-#include <QtWidgets/QHBoxLayout>
-#include <QtWidgets/QHeaderView>
-#include <QtWidgets/QLabel>
-#include <QtWidgets/QLineEdit>
-#include <QtWidgets/QVBoxLayout>
-#include <QtWidgets/QWidget>
+#include <QtGui/QAction>
+#include <QtGui/QApplication>
+#include <QtGui/QButtonGroup>
+#include <QtGui/QDialogButtonBox>
+#include <QtGui/QHBoxLayout>
+#include <QtGui/QHeaderView>
+#include <QtGui/QLabel>
+#include <QtGui/QLineEdit>
+#include <QtGui/QVBoxLayout>
+#include <QtGui/QWidget>
 
 QT_BEGIN_NAMESPACE
 
@@ -35,19 +35,19 @@ public:
     void setupUi(QWidget *GoToCellDialog)
     {
         if (GoToCellDialog->objectName().isEmpty())
-            GoToCellDialog->setObjectName(QStringLiteral("GoToCellDialog"));
+            GoToCellDialog->setObjectName(QString::fromUtf8("GoToCellDialog"));
         GoToCellDialog->resize(328, 129);
         verticalLayout = new QVBoxLayout(GoToCellDialog);
-        verticalLayout->setObjectName(QStringLiteral("verticalLayout"));
+        verticalLayout->setObjectName(QString::fromUtf8("verticalLayout"));
         horizontalLayout = new QHBoxLayout();
-        horizontalLayout->setObjectName(QStringLiteral("horizontalLayout"));
+        horizontalLayout->setObjectName(QString::fromUtf8("horizontalLayout"));
         label = new QLabel(GoToCellDialog);
-        label->setObjectName(QStringLiteral("label"));
+        label->setObjectName(QString::fromUtf8("label"));
 
         horizontalLayout->addWidget(label);
 
         lineEdit = new QLineEdit(GoToCellDialog);
-        lineEdit->setObjectName(QStringLiteral("lineEdit"));
+        lineEdit->setObjectName(QString::fromUtf8("lineEdit"));
 
         horizontalLayout->addWidget(lineEdit);
 
@@ -55,7 +55,7 @@ public:
         verticalLayout->addLayout(horizontalLayout);
 
         buttonBox = new QDialogButtonBox(GoToCellDialog);
-        buttonBox->setObjectName(QStringLiteral("buttonBox"));
+        buttonBox->setObjectName(QString::fromUtf8("buttonBox"));
         buttonBox->setStandardButtons(QDialogButtonBox::Cancel|QDialogButtonBox::Ok);
 
         verticalLayout->addWidget(buttonBox);
@@ -71,8 +71,8 @@ public:
 
     void retranslateUi(QWidget *GoToCellDialog)
     {
-        GoToCellDialog->setWindowTitle(QApplication::translate("GoToCellDialog", "Go to Cell", 0));
-        label->setText(QApplication::translate("GoToCellDialog", "&Cell Location", 0));
+        GoToCellDialog->setWindowTitle(QApplication::translate("GoToCellDialog", "Go to Cell", 0, QApplication::UnicodeUTF8));
+        label->setText(QApplication::translate("GoToCellDialog", "&Cell Location", 0, QApplication::UnicodeUTF8));
     } // retranslateUi
 
 };

@@ -9,3 +9,8 @@ MainWindow::~MainWindow()
 {
 
 }
+
+void MainWindow::createActions()
+{
+
+}

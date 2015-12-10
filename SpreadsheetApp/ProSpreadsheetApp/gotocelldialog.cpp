@@ -1,5 +1,5 @@
-#include <QtWidgets>
-
+//#include <QtWidgets>  // for Qt 5
+#include <QtGui>        // for Qt 4
 #include "gotocelldialog.h"
 
 GoToCellDialog::GoToCellDialog(QWidget *parent)

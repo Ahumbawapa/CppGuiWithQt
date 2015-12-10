@@ -3,17 +3,20 @@
 #include "gotocelldialog.h"     // from chap02
 #include "mainwindow.h"
 #include "sortdialog.h"         // from chap02
-#include "spreadsheet.h"        // from chap04
+//#include "spreadsheet.h"        // from chap04
 
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
 {
+    /*
     spreadsheet = new Spreadsheet;
     setCentralWidget(spreadsheet);
+    */
 
     // setup the mainwindow
     createActions();
+    /*
     createMenus();
     createContextMenu();
     createToolBars();
@@ -21,10 +24,14 @@ MainWindow::MainWindow(QWidget *parent)
 
     readSettings();     //read application stored settings
 
+    */
     findDialog = 0;
 
+    // use Qt Resource system
+    // line RESOURCES = spreadsheet.qrc must be added to project
+    // and .pro file
     setWindowIcon(QIcon(":images/icon.png"));
-    setCurrentFile("");
+    //setCurrentFile("");
 }
 
 MainWindow::~MainWindow()
@@ -33,6 +40,11 @@ MainWindow::~MainWindow()
 }
 
 void MainWindow::createActions()
+{
+
+}
+
+void MainWindow::closeEvent(QCloseEvent *event)
 {
 
 }

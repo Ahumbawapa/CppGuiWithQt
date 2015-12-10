@@ -15,11 +15,17 @@ TEMPLATE = app
 SOURCES += main.cpp\
         mainwindow.cpp \
     gotocelldialog.cpp \
-    finddialog.cpp
+    finddialog.cpp \
+    sortdialog.cpp
 
 HEADERS  += mainwindow.h \
     finddialog.h \
-    gotocelldialog.h
+    gotocelldialog.h \
+    sortdialog.h
 
 FORMS += \
-    gotocelldialog.ui
+    gotocelldialog.ui \
+    sortdialog.ui
+
+RESOURCES += \
+    spreadsheet.qrc

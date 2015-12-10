@@ -24,6 +24,7 @@ protected:
     void closeEvent(QCloseEvent *event);
 
 private slots:
+    /* to keep project compileable
     void NewFile();
     void open();
     bool save();
@@ -36,7 +37,7 @@ private slots:
     void openRecentFile();
     void updateStatusBar();
     void spreadsheetModified();
-
+    */
 private:
     void createActions();
 //    void createMenus();

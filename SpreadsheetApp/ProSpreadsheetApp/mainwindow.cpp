@@ -12,13 +12,14 @@ MainWindow::MainWindow(QWidget *parent)
     spreadsheet = new Spreadsheet;
     setCentralWidget(spreadsheet);
 
+    // setup the mainwindow
     createActions();
     createMenus();
     createContextMenu();
     createToolBars();
     createStatusBar();
 
-    readSettings();
+    readSettings();     //read application stored settings
 
     findDialog = 0;
 

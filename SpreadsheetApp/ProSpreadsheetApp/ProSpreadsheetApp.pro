@@ -29,3 +29,5 @@ FORMS += \
 
 RESOURCES += \
     spreadsheet.qrc
+
+DISTFILES +=

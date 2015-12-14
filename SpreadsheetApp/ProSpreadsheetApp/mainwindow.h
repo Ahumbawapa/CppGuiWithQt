@@ -24,11 +24,11 @@ protected:
     void closeEvent(QCloseEvent *event);
 
 private slots:
-    /* to keep project compileable
-    void NewFile();
+    void newFile();
     void open();
     bool save();
     bool saveAs();
+    /* to keep project compileable
     void find();
     void goToCell();
     void sort();
@@ -40,9 +40,9 @@ private slots:
     */
 private:
     void createActions();
-//    void createMenus();
-//    void createContextMenu();
-//    void createToolBars();
+    void createMenus();
+    void createContextMenu();
+    void createToolBars();
 //    void createStatusBar();
 //    void readSettings();
 //    void writeSettings();
@@ -62,18 +62,31 @@ private:
 
     enum {MaxRecentFiles = 5};
 
-    QAction     *recentFileActions[MaxRecentFiles];
-    QAction     *separatorAction;
-
     QMenu       *fileMenu;
     QMenu       *editMenu;
+    QMenu       *toolsMenu;
+    QMenu       *selectSubMenu;
+    QMenu       *optionsMenu;
+    QMenu       *helpMenu;
 
     QToolBar    *fileToolBar;
     QToolBar    *editToolBar;
+
+    //Actions
     QAction     *newAction;
     QAction     *openAction;
-
+    QAction     *saveAction;
+    QAction     *saveAsAction;
+    QAction     *selectAllAction;
+    QAction     *exitAction;
+    QAction     *recentFileActions[MaxRecentFiles];
+    QAction     *separatorAction;
     QAction     *aboutQtAction;
+    QAction     *aboutAction;
+    QAction     *showGridAction;
+    QAction     *recalculateAction;
+    QAction     *sortAction;
+    QAction     *autoRecalcAction;
 };
 
 #endif // MAINWINDOW_H

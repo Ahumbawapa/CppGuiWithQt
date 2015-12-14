@@ -17,10 +17,11 @@ MainWindow::MainWindow(QWidget *parent)
 
     // setup the mainwindow
     createActions();
-    /*
     createMenus();
     createContextMenu();
     createToolBars();
+
+    /*
     createStatusBar();
 
     readSettings();     //read application stored settings
@@ -40,12 +41,180 @@ MainWindow::~MainWindow()
 
 }
 
+/* Creating the actions.
+ * Actions can be added to any number of menus and toolbars
+ */
 void MainWindow::createActions()
+{
+    //Setting accelerator key and parent
+    newAction = new QAction(tr("&New"), this);
+    newAction->setIcon(QIcon(":/images/new.png"));
+    newAction->setShortcut(QKeySequence::New); // Set a windows standardized keyboard shortcut (Ctrl + N)
+    newAction->setStatusTip(tr("Create a new spreadsheet file"));
+    // Assures that newfile-SLOT is called if user selects File|New
+    // or New toolbar button or presses Ctrl+N
+    connect(newAction, SIGNAL(triggered()), this, SLOT(newFile()));
+
+    //Open-Action
+    openAction = new QAction(tr("&Open"), this);
+    openAction->setIcon(QIcon(":/images/open.png"));
+    openAction->setShortcut(QKeySequence::Open);
+    openAction->setStatusTip(tr("Open an existing spreadsheet file"));
+    connect(openAction, SIGNAL(triggered()), this, SLOT(open()));
+
+    //Save-Action
+    saveAction = new QAction(tr("&Save"), this);
+    saveAction->setIcon(QIcon(":/images/save.png"));
+    saveAction->setShortcut(QKeySequence::Save);
+    saveAction->setStatusTip(tr("Save an exiting spreadsheet file"));
+    connect(saveAction, SIGNAL(triggered()), this, SLOT(save()));
+
+    //SaveAs-Action
+    saveAsAction = new QAction(tr("Save &As"), this);
+    saveAsAction->setIcon(QIcon(":/images/saveAs.png"));
+    saveAsAction->setShortcut(QKeySequence::SaveAs);
+    saveAsAction->setStatusTip(tr("Save spreadsheet as..."));
+    connect(saveAsAction, SIGNAL(triggered()), this, SLOT(saveAs()));
+
+    //openRecentFile
+    for(int i = 0; i < MaxRecentFiles; ++i)
+    {
+        recentFileActions[i] = new QAction(this);
+        recentFileActions[i]->setVisible(false);
+        connect(recentFileActions[i], SIGNAL(triggered()), this, SLOT(openRecentFile()));
+    }
+
+    //ExitAction - No keysequence
+    exitAction = new QAction(tr("E&xit"), this);
+    exitAction->setShortcut(tr("Ctrl+Q"));
+    exitAction->setStatusTip(tr("Exit the application"));
+    //Connect to windows close slot
+    connect(exitAction, SIGNAL(triggerd()), this, SLOT(close()));
+
+    selectAllAction = new QAction(tr("&All"), this);
+    selectAllAction->setShortcut(QKeySequence::SelectAll);
+    selectAllAction->setStatusTip(tr("Select all the cells in the spreadsheet"));
+    //selectAll is provided by QTableWidget.QAbstractItemView
+    //connect(selectAllAction, SIGNAL(triggered()), spreadsheet, SLOT(selectAll()));
+
+    /* ShowGridAction is checkable action
+     */
+
+    showGridAction = new QAction(tr("&Show Grid"), this);
+    showGridAction->setCheckable(true);
+    //showGridAction->setChecked(spreadsheet->showGrid());
+    showGridAction->setStatusTip(tr("Show or hide the spreadsheet's grid"));
+    //connect(showGridAction, SIGNAL(toogled(bool)), spreadsheet, SLOT(setShowGrid(bool)));
+
+
+    aboutQtAction = new QAction(tr("About &Qt"), this);
+    aboutQtAction->setStatusTip(tr("Show the Qt library's About box"));
+    connect(aboutQtAction, SIGNAL(triggered()), qApp, SLOT(aboutQt()));
+}
+
+
+/*
+ * Menus are Instances of QMenu.
+ * addMenu function creates QMenu Widget with specified text and adds it to
+ * the menu bar.
+ * QMainWindow::menuBar() return a pointer to a QMenuBar.
+ * MenuBar is created first tie menuBar is calledQ
+ */
+
+void MainWindow::createMenus()
+{
+    fileMenu = menuBar()->addMenu(tr("&File"));
+    fileMenu->addAction(newAction);
+    fileMenu->addAction(openAction);
+    fileMenu->addAction(saveAction);
+    fileMenu->addAction(saveAsAction);
+
+    separatorAction = fileMenu->addSeparator();
+    for(int i = 0; i < MaxRecentFiles; ++i)
+        fileMenu->addAction(recentFileActions[i]);
+    fileMenu->addSeparator();
+    fileMenu->addAction(exitAction);
+
+    //edit menu
+    editMenu = menuBar()->addMenu(tr("&Edit"));
+    //editMenu->addAction(cutAction);
+    //editMenu->addAction(copyAction);
+    //editMenu->addAction(pasteAction);
+    //editMenu->addAction(deleteAction);
+
+    selectSubMenu = editMenu->addMenu(tr("&Select"));
+    //selectSubMenu->addAction(selectRowAction);
+    //selectSubMenu->addAction(selectColumnAction);
+    selectSubMenu->addAction(selectAllAction);
+
+    editMenu->addSeparator();
+    //editMenu->addAction(findAction);
+    //editMenu->addAction(goToCellAction);
+
+    toolsMenu = menuBar()->addMenu(tr("&Tool"));
+    //toolsMenu->addAction(recalculateAction);
+    //toolsMenu->addAction(sortAction);
+
+    optionsMenu = menuBar()->addMenu(tr("&Options"));
+    //optionsMenu->addAction(showGridAction);
+    //optionsMenu->addAction(autoRecalcAction);
+
+    menuBar()->addSeparator();
+
+    helpMenu = menuBar()->addMenu(tr("&Help"));
+    //helpMenu->addAction(aboutAction);
+    helpMenu->addAction(aboutQtAction);
+}
+
+void MainWindow::createContextMenu()
+{
+    //spreadsheet->AddAction(cutAction);
+    //spreadsheet->AddAction(copyAction);
+    //spreadsheet->AddAction(pastAction);
+    // Each Qt widget can have an associated QActionslist
+    // Applications context menu is provided by adding actions to spreadsheetwidget
+    // and set that widget's context menu policy to show context menu with these added actions
+    //spreadsheet->setContextMenuPolicy(Qt::ActionsContextMenu);
+}
+
+void MainWindow::createToolBars()
+{
+    fileToolBar = addToolBar(tr("&File"));
+    fileToolBar->addAction(newAction);
+    fileToolBar->addAction(openAction);
+    fileToolBar->addAction(saveAction);
+    fileToolBar->addAction(saveAsAction);
+
+    editToolBar = addToolBar(tr("&Edit"));
+    //editToolBar->addAction(cutAction);
+    //editToolBar->addAction(copyAction);
+    //editToolBar->addAction(pasteAction);
+    editToolBar->addSeparator();
+    //editToolBar->addAction(findAction);
+    //editToolBar->addAction(gotoCellAction);
+}
+
+void MainWindow::closeEvent(QCloseEvent *event)
 {
 
 }
 
-void MainWindow::closeEvent(QCloseEvent *event)
+void MainWindow::newFile()
+{
+
+}
+
+void MainWindow::open()
+{
+
+}
+
+bool MainWindow::save()
+{
+
+}
+
+bool MainWindow::saveAs()
 {
 
 }

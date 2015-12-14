@@ -1,9 +1,10 @@
-#include <QtGui>
-#include "finddialog.h"         // from chap02
-#include "gotocelldialog.h"     // from chap02
+//#include <QtGui>              //  using Qt 4
+#include <QtWidgets>            //  using Qt 5
+#include "finddialog.h"         //  from chap02
+#include "gotocelldialog.h"     //  from chap02
 #include "mainwindow.h"
 #include "sortdialog.h"         // from chap02
-//#include "spreadsheet.h"        // from chap04
+//#include "spreadsheet.h"      // from chap04
 
 
 MainWindow::MainWindow(QWidget *parent)

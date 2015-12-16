@@ -28,6 +28,8 @@ private slots:
     void open();
     bool save();
     bool saveAs();
+    void updateStatusBar();
+    void spreadsheetModified();
     /* to keep project compileable
     void find();
     void goToCell();
@@ -35,15 +37,15 @@ private slots:
     void about();
 
     void openRecentFile();
-    void updateStatusBar();
-    void spreadsheetModified();
+
+
     */
 private:
     void createActions();
     void createMenus();
     void createContextMenu();
     void createToolBars();
-//    void createStatusBar();
+    void createStatusBar();
 //    void readSettings();
 //    void writeSettings();
 //    bool okToContinue();

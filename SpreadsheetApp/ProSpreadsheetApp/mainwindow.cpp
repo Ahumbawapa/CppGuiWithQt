@@ -1,5 +1,5 @@
-//#include <QtGui>              //  using Qt 4
-#include <QtWidgets>            //  using Qt 5
+#include <QtGui>              //  using Qt 4
+//#include <QtWidgets>            //  using Qt 5
 #include "finddialog.h"         //  from chap02
 #include "gotocelldialog.h"     //  from chap02
 #include "mainwindow.h"
@@ -21,9 +21,8 @@ MainWindow::MainWindow(QWidget *parent)
     createContextMenu();
     createToolBars();
 
-    /*
     createStatusBar();
-
+    /*
     readSettings();     //read application stored settings
 
     */
@@ -194,6 +193,33 @@ void MainWindow::createToolBars()
     //editToolBar->addAction(gotoCellAction);
 }
 
+void MainWindow::createStatusBar()
+{
+    locationLabel = new QLabel(" W999 ");
+    locationLabel->setAlignment(Qt::AlignHCenter);
+    locationLabel->setMinimumSize(locationLabel->sizeHint());
+
+    formulaLabel = new QLabel;
+    //addIndent to offset from left edge
+    formulaLabel->setIndent(10);
+
+    //MainWindow::statusBar return pointer to the statusbar
+    //which is created first at the first time the function is called
+    statusBar()->addWidget(locationLabel);
+    statusBar()->addWidget(formulaLabel, 1);
+
+    //connects - will be implemented later
+    // when spreadsheet is implemented
+/*
+    connect(  spreadSheet, SIGNAL(currentCellChanged(int, int, int, int))
+            , this, SLOT(updateStatusBar()));
+    connect(  spreadSheet, SIGNAL(modified()))
+            , this, SLOT(spreadsheetModified()));
+
+*/
+    updateStatusBar();
+}
+
 void MainWindow::closeEvent(QCloseEvent *event)
 {
 
@@ -217,4 +243,16 @@ bool MainWindow::save()
 bool MainWindow::saveAs()
 {
 
+}
+
+void MainWindow::updateStatusBar()
+{
+    locationLabel->setText(QString(tr(" W999 "))); //spreadsheet->currentLocation());
+    formulaLabel->setText(QString(tr("formulaLabel")));//spreadsheet->currentFormula());
+}
+
+void MainWindow::spreadsheetModified()
+{
+    setWindowModified(true);
+    updateStatusBar();
 }

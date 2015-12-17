@@ -47,11 +47,11 @@ private:
     void createToolBars();
     void createStatusBar();
 //    void readSettings();
-//    void writeSettings();
-//    bool okToContinue();
-//    bool loadFile(const QString &fileName);
-//    bool saveFile(const QString &fileName);
-//    void setCurrentFile(const QString &fileName);
+    void writeSettings();
+    bool okToContinue();
+    bool loadFile(const QString &fileName);
+    bool saveFile(const QString &fileName);
+    void setCurrentFile(const QString &fileName);
 //    void updateRecentFileActions();
 //    QString strippedName(const QString &fullFileName);
 

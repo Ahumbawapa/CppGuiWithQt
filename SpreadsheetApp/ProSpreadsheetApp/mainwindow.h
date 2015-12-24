@@ -35,11 +35,11 @@ private slots:
     void goToCell();
     void sort();
     void about();
-
+    */
     void openRecentFile();
 
 
-    */
+
 private:
     void createActions();
     void createMenus();
@@ -52,8 +52,8 @@ private:
     bool loadFile(const QString &fileName);
     bool saveFile(const QString &fileName);
     void setCurrentFile(const QString &fileName);
-//    void updateRecentFileActions();
-//    QString strippedName(const QString &fullFileName);
+    void updateRecentFileActions();
+    QString strippedName(const QString &fullFileName);
 
     Spreadsheet *spreadsheet;
     FindDialog  *findDialog;

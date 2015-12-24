@@ -257,9 +257,10 @@ void MainWindow::open()
 
 bool MainWindow::loadFile(const QString &fileName)
 {
-    if(!spreadsheet->readFile(fileName))
+    //if(!spreadsheet->readFile(fileName))
+    if(fileName.isEmpty())
     {
-        statusBar()->showMessage(tr("Loading canceled"), 2000);
+        statusBar()->showMessage(tr("Loading canceled"), 2000); //display message in statusbar for 2000 ms
         return false;
     }
 
@@ -293,9 +294,10 @@ bool MainWindow::saveAs()
 
 bool MainWindow::saveFile(const QString &fileName)
 {
-    if(!spreadsheet->writeFile(fileName))
+    //if(!spreadsheet->writeFile(fileName))
+    if(fileName.isEmpty())
     {
-        statusBar->showMessage(tr("Saving canceled"), 2000);
+        statusBar()->showMessage(tr("Saving canceled"), 2000);
         return false;
     }
 
@@ -341,4 +343,71 @@ bool MainWindow::okToContinue()
 void MainWindow::writeSettings()
 {
 
+}
+
+void MainWindow::setCurrentFile(const QString &fileName)
+{
+    curFile = fileName;
+    //every QWidget has a windowModified property which should be set to true if there are unsaved changes
+    setWindowModified(false);
+    QString shownName = tr("Untitled");
+    if(!curFile.isEmpty())
+    {
+        shownName = strippedName(curFile);
+        //remove any occurrences of the filename in recentfilelist
+        recentFiles.removeAll(curFile);
+        //add filename as first item in recentfilelist
+        recentFiles.prepend(curFile);
+        //update entries in file menu
+        updateRecentFileActions();
+    }
+
+    setWindowTitle(tr("%1[*] - %2").arg(shownName).arg(tr("Spreadsheet")));
+}
+
+void MainWindow::updateRecentFileActions()
+{
+    //recentFiles is of type QStringList
+    //remove file that no longer exists
+    QMutableStringListIterator i(recentFiles);
+    while(i.hasNext())
+    {
+        if(!QFile::exists(i.next()))
+            i.remove();
+    }
+
+    for(int j = 0; j < MaxRecentFiles; ++j)
+    {
+        if(j < recentFiles.count())
+        {
+            QString text = tr("&%1 %2").arg(j + 1)
+                                       .arg(strippedName(recentFiles[j]));
+            recentFileActions[j]->setText(text);
+            //every QAction has a data item of Typ QVariant
+            recentFileActions[j]->setData(recentFiles[j]);
+            recentFileActions[j]->setVisible(true);
+        }
+        else
+        {
+            recentFileActions[j]->setVisible(false);
+        }
+
+    }
+
+    separatorAction->setVisible(!recentFiles.isEmpty());
+}
+
+void MainWindow::openRecentFile()
+{
+    if(okToContinue())
+    {
+        QAction *action = qobject_cast<QAction *>(sender());
+        if(action)
+            loadFile(action->data().toString());
+    }
+}
+
+QString MainWindow::strippedName(const QString &fullFileName)
+{
+    return QFileInfo(fullFileName).fileName();
 }

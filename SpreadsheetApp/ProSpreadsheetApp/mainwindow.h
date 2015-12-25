@@ -90,6 +90,9 @@ private:
     QAction     *recalculateAction;
     QAction     *sortAction;
     QAction     *autoRecalcAction;
+    QAction     *findAction;
+    QAction     *gotoCellAction;
+
 };
 
 #endif // MAINWINDOW_H

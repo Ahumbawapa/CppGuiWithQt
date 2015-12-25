@@ -4,15 +4,16 @@
 #include "gotocelldialog.h"     //  from chap02
 #include "mainwindow.h"
 #include "sortdialog.h"         // from chap02
-//#include "spreadsheet.h"      // from chap04
+#include "spreadsheet.h"      // from chap04
 
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
 {
-    /*
+
     spreadsheet = new Spreadsheet;
-    setCentralWidget(spreadsheet);
+    /*
+     * setCentralWidget(spreadsheet);
     */
 
     // setup the mainwindow
@@ -88,7 +89,19 @@ void MainWindow::createActions()
     exitAction->setShortcut(tr("Ctrl+Q"));
     exitAction->setStatusTip(tr("Exit the application"));
     //Connect to windows close slot
-    connect(exitAction, SIGNAL(triggerd()), this, SLOT(close()));
+    connect(exitAction, SIGNAL(triggered()), this, SLOT(close()));
+
+
+    //EDIT - Actions
+    findAction = new QAction(tr("&Find"), this);
+    findAction->setShortcut(QKeySequence::Find);
+    findAction->setStatusTip(tr("Find a value in cells"));
+    connect(findAction, SIGNAL(triggered()), this, SLOT(find()));
+
+    gotoCellAction = new QAction(tr("&Goto cell"), this);
+    //shortcut later
+    gotoCellAction->setStatusTip(tr("Open a dialog to enter cell coordinates"));
+    connect(gotoCellAction, SIGNAL(triggered()), this, SLOT(goToCell()));
 
     selectAllAction = new QAction(tr("&All"), this);
     selectAllAction->setShortcut(QKeySequence::SelectAll);
@@ -147,8 +160,8 @@ void MainWindow::createMenus()
     selectSubMenu->addAction(selectAllAction);
 
     editMenu->addSeparator();
-    //editMenu->addAction(findAction);
-    //editMenu->addAction(goToCellAction);
+    editMenu->addAction(findAction);
+    editMenu->addAction(gotoCellAction);
 
     toolsMenu = menuBar()->addMenu(tr("&Tool"));
     //toolsMenu->addAction(recalculateAction);
@@ -422,10 +435,10 @@ void MainWindow::find()
         findDialog = new FindDialog(this);
 
         connect(  findDialog,   SIGNAL(findNext(const QString& ,Qt::CaseSensitivity))
-                , spreadSheet,  SLOT(findNext(const QString&, Qt::CaseSensitivity)));
+                , spreadsheet,  SLOT(findNext(const QString&, Qt::CaseSensitivity)));
 
         connect(  findDialog,  SIGNAL(findPrevious(QString,Qt::CaseSensitivity))
-                , spreadSheet, SLOT(findPrevious(const QString&, Qt::CaseSensitivity)));
+                , spreadsheet, SLOT(findPrevious(const QString&, Qt::CaseSensitivity)));
     }
 
     //ensure window is visible
@@ -434,4 +447,16 @@ void MainWindow::find()
     findDialog->raise();
     //ensure window is active
     findDialog->activateWindow();
+}
+
+void MainWindow::goToCell()
+{
+    qDebug() << "MainWindow::gotoCell()";
+    GoToCellDialog dialog(this);
+    if(dialog.exec())
+    {
+        QString str = dialog.lineEdit->text().toUpper();
+        spreadsheet->setCurrentCell(  str.mid(1).toInt() - 1
+                                     , str[0].unicode() - 'A');
+    }
 }

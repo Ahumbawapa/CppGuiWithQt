@@ -12,6 +12,9 @@ public:
 signals:
 
 public slots:
+    bool findNext(const QString& what, Qt::CaseSensitivity cs);
+    bool findPrevious(const QString& what, Qt::CaseSensitivity cs);
+    bool setCurrentCell(int row, int column);
 
 };
 

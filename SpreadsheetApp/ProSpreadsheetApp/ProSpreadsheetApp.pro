@@ -16,12 +16,14 @@ SOURCES += main.cpp\
         mainwindow.cpp \
     gotocelldialog.cpp \
     finddialog.cpp \
-    sortdialog.cpp
+    sortdialog.cpp \
+    spreadsheet.cpp
 
 HEADERS  += mainwindow.h \
     finddialog.h \
     gotocelldialog.h \
-    sortdialog.h
+    sortdialog.h \
+    spreadsheet.h
 
 FORMS += \
     gotocelldialog.ui \

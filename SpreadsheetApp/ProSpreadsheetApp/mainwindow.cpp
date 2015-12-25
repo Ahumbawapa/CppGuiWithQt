@@ -411,3 +411,27 @@ QString MainWindow::strippedName(const QString &fullFileName)
 {
     return QFileInfo(fullFileName).fileName();
 }
+
+
+// create finddialog as a modeless window
+// because user should be able to switch between SpreadSheet and find dialog at will
+void MainWindow::find()
+{
+    if(!findDialog)
+    {
+        findDialog = new FindDialog(this);
+
+        connect(  findDialog,   SIGNAL(findNext(const QString& ,Qt::CaseSensitivity))
+                , spreadSheet,  SLOT(findNext(const QString&, Qt::CaseSensitivity)));
+
+        connect(  findDialog,  SIGNAL(findPrevious(QString,Qt::CaseSensitivity))
+                , spreadSheet, SLOT(findPrevious(const QString&, Qt::CaseSensitivity)));
+    }
+
+    //ensure window is visible
+    findDialog->show();
+    //ensure window is on top of the others
+    findDialog->raise();
+    //ensure window is active
+    findDialog->activateWindow();
+}

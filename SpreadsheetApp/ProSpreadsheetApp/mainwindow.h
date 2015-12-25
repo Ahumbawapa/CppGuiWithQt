@@ -30,9 +30,10 @@ private slots:
     bool saveAs();
     void updateStatusBar();
     void spreadsheetModified();
-    /* to keep project compileable
+
     void find();
     void goToCell();
+    /* to keep project compileable
     void sort();
     void about();
     */

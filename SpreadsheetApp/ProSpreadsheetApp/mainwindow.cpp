@@ -119,6 +119,10 @@ void MainWindow::createActions()
     //connect(showGridAction, SIGNAL(toogled(bool)), spreadsheet, SLOT(setShowGrid(bool)));
 
 
+    aboutAction = new QAction(tr("About &spreadsheet"), this);
+    aboutAction->setStatusTip(tr("Show the spreadsheet about box"));
+    connect(aboutAction, SIGNAL(triggered()), this, SLOT(about()));
+
     aboutQtAction = new QAction(tr("About &Qt"), this);
     aboutQtAction->setStatusTip(tr("Show the Qt library's About box"));
     connect(aboutQtAction, SIGNAL(triggered()), qApp, SLOT(aboutQt()));
@@ -174,7 +178,7 @@ void MainWindow::createMenus()
     menuBar()->addSeparator();
 
     helpMenu = menuBar()->addMenu(tr("&Help"));
-    //helpMenu->addAction(aboutAction);
+    helpMenu->addAction(aboutAction);
     helpMenu->addAction(aboutQtAction);
 }
 
@@ -452,11 +456,47 @@ void MainWindow::find()
 void MainWindow::goToCell()
 {
     qDebug() << "MainWindow::gotoCell()";
+    //created on the stack - common praxis if the dialog is not used after function call
     GoToCellDialog dialog(this);
-    if(dialog.exec())
+    if(dialog.exec())//return true, if dialog is accepted, otherwise false
     {
         QString str = dialog.lineEdit->text().toUpper();
+        //QTableWidget.setCurrentCell expects two arguments: a row and a column index e.g. A1 = (0,0); B27 = (26, 1)
         spreadsheet->setCurrentCell(  str.mid(1).toInt() - 1
                                      , str[0].unicode() - 'A');
     }
+}
+
+/* will be finished in Chap04
+void MainWindow::sort()
+{
+    SortDialog dialog(this);
+    QTableWidgetSelectionRange range = spreadsheet->selectedRange();
+    dialog.setColumnRange( 'A' + range.leftColumn()
+                          ,'A' + range.rightColumn());
+
+    if(dialog.exec())
+    {
+        SpreadsheetCompare compare;
+        compare.keys[0] = dialog.primaryColumnCombo->currentIndex();
+        compare.keys[1] = dialog.secondaryColumnCombo->currentIndex() -1;
+        compare.keys[2] = dialog.tertiaryColumnCombo->currentIndex()-1;
+        compare.ascending[0] = (dialog.primaryOrderCombo->currentIndex() == 0);
+        compare.ascending[1] = (dialog.secondaryOrderCombo->currentIndex() == 0);
+        compare.ascending[2] = (dialog.tertiaryOrderCombo->currentIndex() == 0);
+        spreadsheet->sort(compare);
+    }
+}
+*/
+
+void MainWindow::about()
+{
+    QMessageBox::about(   this
+                        , tr("About Spreadsheet")
+                        , tr("<h2>Spreadsheet 1.1</h2>"
+                             "<p>Copyright &copy; 2008 Software Inc. "
+                             "<p>Spreadsheet is a small application that "
+                             "demonstrates QAction, QMainWindow, QMenuBar, "
+                             "QStatusBar, QTableWidget, QToolBar, and many other "
+                             "Qt classes."));
 }

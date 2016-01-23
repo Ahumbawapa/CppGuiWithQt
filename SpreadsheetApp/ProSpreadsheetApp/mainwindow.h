@@ -33,10 +33,12 @@ private slots:
 
     void find();
     void goToCell();
+
     /* to keep project compileable
     void sort();
-    void about();
+
     */
+    void about();
     void openRecentFile();
 
 

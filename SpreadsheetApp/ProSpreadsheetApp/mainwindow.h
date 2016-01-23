@@ -49,7 +49,7 @@ private:
     void createContextMenu();
     void createToolBars();
     void createStatusBar();
-//    void readSettings();
+    void readSettings();
     void writeSettings();
     bool okToContinue();
     bool loadFile(const QString &fileName);

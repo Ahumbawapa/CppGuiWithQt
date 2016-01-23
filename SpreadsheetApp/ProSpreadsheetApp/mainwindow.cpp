@@ -23,10 +23,10 @@ MainWindow::MainWindow(QWidget *parent)
     createToolBars();
 
     createStatusBar();
-    /*
+
     readSettings();     //read application stored settings
 
-    */
+
     findDialog = 0;
 
     // use Qt Resource system
@@ -359,7 +359,29 @@ bool MainWindow::okToContinue()
 
 void MainWindow::writeSettings()
 {
+    QSettings settings("Software Inc.", "Spreadsheet");
+    settings.setValue("geometry", saveGeometry());
+    settings.setValue("recentFiles", recentFiles);
+  //  settings.setValue("showGrid", showGridAction->isChecked());
+  //  settings.setValue("autoRecalc", autoRecalcAction->isChecked());
+}
 
+void MainWindow::readSettings()
+{
+    QSettings settings("Software Inc.", "Spreadsheet");
+    QByteArray qba = settings.value("geometry").toByteArray();
+    restoreGeometry(qba);
+
+    recentFiles = settings.value("recentFiles").toStringList();
+    updateRecentFileActions();
+
+    /*
+    bool showGrid = settings.value("showGrid", true).toBool();
+    showGridAction->setChecked(showGrid);
+
+    bool autoRecalc = settings.value("autoRecalc", true).toBool();
+    autoRecalcAction->setChecked(autoRecalc);
+    */
 }
 
 void MainWindow::setCurrentFile(const QString &fileName)

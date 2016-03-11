@@ -42,7 +42,6 @@ private slots:
     void openRecentFile();
 
 
-
 private:
     void createActions();
     void createMenus();

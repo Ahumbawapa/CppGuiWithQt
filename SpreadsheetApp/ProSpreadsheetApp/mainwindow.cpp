@@ -7,6 +7,8 @@
 #include "spreadsheet.h"      // from chap04
 
 
+QStringList MainWindow::recentFiles;
+
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
 {
@@ -29,6 +31,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     findDialog = 0;
 
+    setAttribute(Qt::WA_DeleteOnClose);//tells qt to delete the window when it is closed
     // use Qt Resource system
     // line RESOURCES = spreadsheet.qrc must be added to project
     // and .pro file
@@ -84,12 +87,20 @@ void MainWindow::createActions()
         connect(recentFileActions[i], SIGNAL(triggered()), this, SLOT(openRecentFile()));
     }
 
+
+    //CloseAction
+    closeAction = new QAction(tr("&Close"), this);
+    closeAction->setShortcut(QKeySequence::Close);
+    closeAction->setStatusTip(tr("Close this window"));
+    connect(closeAction, SIGNAL(triggered()), this, SLOT(close()));
+
+
     //ExitAction - No keysequence
     exitAction = new QAction(tr("E&xit"), this);
     exitAction->setShortcut(tr("Ctrl+Q"));
     exitAction->setStatusTip(tr("Exit the application"));
     //Connect to windows close slot
-    connect(exitAction, SIGNAL(triggered()), this, SLOT(close()));
+    connect(exitAction, SIGNAL(triggered()), qApp, SLOT(closeAllWindows()));
 
 
     //EDIT - Actions
@@ -252,11 +263,19 @@ void MainWindow::closeEvent(QCloseEvent *event)
 
 void MainWindow::newFile()
 {
+    /* Implementation for SDI
     if(okToContinue())
     {
         //spreadsheet->clear();
         setCurrentFile("");
     }
+    */
+
+    /* Implementation for MDI */
+    MainWindow *mainWin = new MainWindow;
+    mainWin->show();
+
+
 }
 
 void MainWindow::open()
@@ -361,7 +380,7 @@ void MainWindow::writeSettings()
 {
     QSettings settings("Software Inc.", "Spreadsheet");
     settings.setValue("geometry", saveGeometry());
-    settings.setValue("recentFiles", recentFiles);
+    settings.setValue("recentFiles", MainWindow::recentFiles);
   //  settings.setValue("showGrid", showGridAction->isChecked());
   //  settings.setValue("autoRecalc", autoRecalcAction->isChecked());
 }
@@ -373,8 +392,13 @@ void MainWindow::readSettings()
     restoreGeometry(qba);
 
     recentFiles = settings.value("recentFiles").toStringList();
-    updateRecentFileActions();
 
+    /*update on all windows */
+    foreach(QWidget *win, QApplication::topLevelWidgets())
+    {
+        if(MainWindow *mainWin = qobject_cast<MainWindow *>(win))
+         mainWin->updateRecentFileActions();
+    }
     /*
     bool showGrid = settings.value("showGrid", true).toBool();
     showGridAction->setChecked(showGrid);
@@ -397,8 +421,14 @@ void MainWindow::setCurrentFile(const QString &fileName)
         recentFiles.removeAll(curFile);
         //add filename as first item in recentfilelist
         recentFiles.prepend(curFile);
-        //update entries in file menu
-        updateRecentFileActions();
+        //update entries in file menu in all windows
+        foreach(QWidget *win, QApplication::topLevelWidgets())
+        {
+            if(MainWindow *mainWin = qobject_cast<MainWindow *>(win))
+                mainWin->updateRecentFileActions();
+        }
+
+
     }
 
     setWindowTitle(tr("%1[*] - %2").arg(shownName).arg(tr("Spreadsheet")));

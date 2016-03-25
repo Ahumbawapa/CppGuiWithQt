@@ -17,7 +17,7 @@ class MainWindow : public QMainWindow
 public:
     MainWindow(QWidget *parent = 0);
     ~MainWindow();
-
+    static QStringList  recentFiles;
 protected:
     //virtual function in QWidget, automatically called when window is closed by user
     //reimplement here for showing close dialog
@@ -42,7 +42,6 @@ private slots:
     void openRecentFile();
 
 
-
 private:
     void createActions();
     void createMenus();
@@ -62,7 +61,6 @@ private:
     FindDialog  *findDialog;
     QLabel      *locationLabel;
     QLabel      *formulaLabel;
-    QStringList  recentFiles;
     QString      curFile;
 
     enum {MaxRecentFiles = 5};
@@ -83,6 +81,7 @@ private:
     QAction     *saveAction;
     QAction     *saveAsAction;
     QAction     *selectAllAction;
+    QAction     *closeAction;
     QAction     *exitAction;
     QAction     *recentFileActions[MaxRecentFiles];
     QAction     *separatorAction;

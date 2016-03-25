@@ -1,21 +1,66 @@
 #ifndef SPREADSHEET_H
 #define SPREADSHEET_H
 
-#include <QObject>
+#include <QTableWidget>
 
-class Spreadsheet : public QObject
+//forward declarations
+class Cell;
+class SpreadsheetCompare;
+
+class Spreadsheet : public QTableWidget
 {
     Q_OBJECT
-public:
-    explicit Spreadsheet(QObject *parent = 0);
 
-signals:
+public:
+    Spreadsheet(QWidget *parent = 0);
+
+    bool autoRecalculate() const { return autoRecalc;} //inline, return whether or not auto-recalculation is in force
+    QString currentLocation() const;
+    QString currentFormula() const;
+    QTableWidgetSelectionRange selectedRange() const;
+    void clear();
+    bool readFile(const QString &fileName);
+    bool writeFile(const QString &fileName);
+    void sort(const SpreadsheetCompare &compare);
 
 public slots:
-    bool findNext(const QString& what, Qt::CaseSensitivity cs);
-    bool findPrevious(const QString& what, Qt::CaseSensitivity cs);
-    bool setCurrentCell(int row, int column);
+    void cut();
+    void copy();
+    void paste();
+    void del();
+    void selectCurrentRow();
+    void selectCurrentColumn();
+    void recalculate();
+    void setAutoRecalculate(bool recalc);
+    bool findNext(const QString &str, Qt::CaseSensitivity cs);
+    bool findPrevious(const QString &str, Qt::CaseSensitivity cs);
 
+signals:
+    void modified(); //announce any change that has occurred
+
+private slots:
+    void somethingChanged();
+
+private:
+    enum {MagicNumber = 0x7F51C883, RowCount = 999, ColumnCount = 26 };
+
+    Cell *cell(int row, int column) const;
+    QString text(int row, int column) const;
+    QString formula(int row, int column) const;
+    void setFormula(int row, int column, const QString &formula);
+
+    bool autoRecalc;
 };
+
+class SpreadsheetCompare
+{
+public:
+    bool operator() (const QStringList &row1, const QStringList &row2) const;
+    enum { KeyCount = 3};
+    int  keys[KeyCount];
+    bool ascending[KeyCount];
+};
+
+
 
 #endif // SPREADSHEET_H

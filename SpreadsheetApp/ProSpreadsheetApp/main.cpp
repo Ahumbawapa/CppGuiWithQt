@@ -31,12 +31,12 @@ int main(int argc, char *argv[])
     splashScreen->showMessage(  QObject::tr("Loading modules...")
                               , topRight, Qt::white);
 
-    QThread::sleep(1);
+    //QThread::sleep(1);
 
     splashScreen->showMessage(  QObject::tr("Establishing connections...")
                               , topRight, Qt::white);
 
-    QThread::sleep(1);
+    //QThread::sleep(1);
 
     mainWin->show();
     splashScreen->finish(mainWin);

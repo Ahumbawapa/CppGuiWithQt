@@ -14,9 +14,9 @@ MainWindow::MainWindow(QWidget *parent)
 {
 
     spreadsheet = new Spreadsheet;
-    /*
-     * setCentralWidget(spreadsheet);
-    */
+
+    setCentralWidget(spreadsheet);
+
 
     // setup the mainwindow
     createActions();

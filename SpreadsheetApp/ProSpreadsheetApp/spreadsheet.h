@@ -32,8 +32,8 @@ public slots:
     void selectCurrentColumn();
     void recalculate();
     void setAutoRecalculate(bool recalc);
-    bool findNext(const QString &str, Qt::CaseSensitivity cs);
-    bool findPrevious(const QString &str, Qt::CaseSensitivity cs);
+    void findNext(const QString &str, Qt::CaseSensitivity cs);
+    void findPrevious(const QString &str, Qt::CaseSensitivity cs);
 
 signals:
     void modified(); //announce any change that has occurred

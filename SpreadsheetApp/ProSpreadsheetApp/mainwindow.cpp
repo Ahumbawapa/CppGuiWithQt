@@ -1,5 +1,5 @@
-//#include <QtGui>              //  using Qt 4
-#include <QtWidgets>            //  using Qt 5
+#include <QtGui>              //  using Qt 4
+//#include <QtWidgets>            //  using Qt 5
 #include "finddialog.h"         //  from chap02
 #include "gotocelldialog.h"     //  from chap02
 #include "mainwindow.h"
@@ -14,9 +14,9 @@ MainWindow::MainWindow(QWidget *parent)
 {
 
     spreadsheet = new Spreadsheet;
-    /*
-     * setCentralWidget(spreadsheet);
-    */
+
+    setCentralWidget(spreadsheet);
+
 
     // setup the mainwindow
     createActions();
